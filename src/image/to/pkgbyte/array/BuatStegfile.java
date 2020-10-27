@@ -42,7 +42,11 @@ public class BuatStegfile {
         int n = 0, m = 0;
         int piksel;
         
-        if(nPesan < (panjang*lebar)){
+        while(nPesanBiner.length() < 32){
+            nPesanBiner = '0' + nPesanBiner;
+        }
+        
+        if(nPesan < (panjang * lebar)){
             for(int x = 0 ; x < panjang ; x++ ){
                 for(int y = 0 ; y < lebar ; y++){
                     piksel = this.cover.getRGB(x, y);
@@ -70,16 +74,50 @@ public class BuatStegfile {
                     this.cover.setRGB(x, y, piksel);
                 }
             }
-        }
-        
-        
+            
+            File f = new File("Stegofile.bmp"); 
+            ImageIO.write(this.cover, "bmp", f); 
+        }else{
+            System.out.println("pesan melebihi " + ((int)((panjang*lebar)/8)) + " karakter");
+        }      
     }
     
     
-    public static void main(String[] args) {
-        BuatStegfile buat = new BuatStegfile();
+    public void citra2Biner() throws IOException{
+        if(this.cover == null){
+            this.cover = ImageIO.read(new File("sample.bmp"));
+        }
+        int lebar = this.cover.getWidth();
+        int panjang = this.cover.getHeight();
+        int piksel;
         
-        String test = buat.konvPesan("aku adalah anak laki-laki");
-        System.out.println(test);
+        for(int x = 0 ; x < panjang ; x++){
+            for(int y = 0 ; y < lebar; y++){
+                piksel = this.cover.getRGB(x, y);
+                Integer alpha = (piksel >> 24) & 0xff;
+                Integer merah = (piksel >> 16) & 0xff;
+                Integer hijau = (piksel >> 8) & 0xff;
+                Integer biru = (piksel) & 0xff;
+                String bin_merah = Integer.toBinaryString(merah);
+                String bin_hijau = Integer.toBinaryString(hijau);
+                String bin_biru = Integer.toBinaryString(biru);
+                System.out.print(merah + "(" + bin_merah +") ");
+            }
+            System.out.println("");
+        }
+      
+    }
+    
+    public static void main(String[] args) throws IOException {
+        BuatStegfile buat = new BuatStegfile();
+//        String test = buat.konvPesan("aku rohis 23");
+//        System.out.println(test.length());
+//        
+//        System.out.println("=========");
+//        buat.citra2Biner();
+//        buat.sisipPesan("aku rohis 23");
+//        System.out.println("=========");
+//        
+        buat.citra2Biner();
     }
 }
