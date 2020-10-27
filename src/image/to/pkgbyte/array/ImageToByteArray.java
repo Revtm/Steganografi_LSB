@@ -20,7 +20,7 @@ public class ImageToByteArray {
     public BufferedImage bImage;
 
     public void extractBiner() throws IOException{
-        bImage = ImageIO.read(new File("sample.jpeg"));
+        bImage = ImageIO.read(new File("sample.bmp"));
         int w_img = bImage.getWidth();
         int h_img = bImage.getHeight();
         int piksel;
@@ -79,10 +79,11 @@ public class ImageToByteArray {
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        ImageToByteArray I = new ImageToByteArray();
-        I.extractBiner();
-        System.out.println("=======");
-        I.imageToBiner();
+//        ImageToByteArray I = new ImageToByteArray();
+//        I.extractBiner();
+//        System.out.println("=======");
+//        I.imageToBiner();
+            System.out.println(Integer.toBinaryString(555));
         
     }
     
