@@ -38,7 +38,7 @@ public class BuatStegfile {
         return konversi;
     }
     
-    public void sisipPesan(String pesan) throws IOException{
+    public boolean sisipPesan(String pesan) throws IOException{
         
         String kPesan = this.konvPesan(pesan);
         int nPesan = kPesan.length();
@@ -84,40 +84,18 @@ public class BuatStegfile {
             
             File f = new File("Stegofile.bmp"); 
             ImageIO.write(this.cover, "bmp", f); 
+            
+            return true;
         }else{
             System.out.println("pesan melebihi " + ((int)((panjang*lebar)/8)) + " karakter");
+            return false;
         }      
     }
     
     
-    public void citra2Biner() throws IOException{
-        if(this.cover == null){
-            this.cover = ImageIO.read(new File("sample.bmp"));
-        }
-        int lebar = this.cover.getWidth();
-        int panjang = this.cover.getHeight();
-        int piksel;
-        
-        for(int x = 0 ; x < panjang ; x++){
-            for(int y = 0 ; y < lebar; y++){
-                piksel = this.cover.getRGB(x, y);
-                Integer alpha = (piksel >> 24) & 0xff;
-                Integer merah = (piksel >> 16) & 0xff;
-                Integer hijau = (piksel >> 8) & 0xff;
-                Integer biru = (piksel) & 0xff;
-                String bin_merah = Integer.toBinaryString(merah);
-                String bin_hijau = Integer.toBinaryString(hijau);
-                String bin_biru = Integer.toBinaryString(biru);
-                System.out.print(biru + "(" + bin_biru +") ");
-            }
-            System.out.println("");
-        }
-      
-    }
-    
     public static void main(String[] args) throws IOException {
         BufferedImage cover = ImageIO.read(new File("suvafoto.jpeg"));
         BuatStegfile buat = new BuatStegfile(cover);
-        buat.sisipPesan("Aku anak ROHIS, Selalu Optimis...");
+        boolean b = buat.sisipPesan("Aku anak ROHIS, Selalu Optimis...");
     }
 }
