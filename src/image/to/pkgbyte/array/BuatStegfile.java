@@ -38,7 +38,7 @@ public class BuatStegfile {
         return konversi;
     }
     
-    public boolean sisipPesan(String pesan) throws IOException{
+    public boolean sisipPesan(String pesan, String alamat) throws IOException{
         
         String kPesan = this.konvPesan(pesan);
         int nPesan = kPesan.length();
@@ -82,7 +82,7 @@ public class BuatStegfile {
                 }
             }
             
-            File f = new File("Stegofile.bmp"); 
+            File f = new File(alamat+"/Stegofile.bmp"); 
             ImageIO.write(this.cover, "bmp", f); 
             
             return true;
@@ -96,6 +96,6 @@ public class BuatStegfile {
     public static void main(String[] args) throws IOException {
         BufferedImage cover = ImageIO.read(new File("suvafoto.jpeg"));
         BuatStegfile buat = new BuatStegfile(cover);
-        boolean b = buat.sisipPesan("Aku anak ROHIS, Selalu Optimis...");
+        boolean b = buat.sisipPesan("Aku anak ROHIS,"+'\n'+" Selalu Optimis...","./");
     }
 }
