@@ -83,7 +83,9 @@ public class ImageToByteArray {
 //        I.extractBiner();
 //        System.out.println("=======");
 //        I.imageToBiner();
-            System.out.println(Integer.toBinaryString(555));
+            System.out.println(Integer.toBinaryString('k'));
+            int x = 'k';
+            System.out.println(x);
         
     }
     

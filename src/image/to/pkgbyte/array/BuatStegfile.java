@@ -18,20 +18,27 @@ import javax.imageio.ImageIO;
 public class BuatStegfile {
     private BufferedImage cover;
     
+    public BuatStegfile(BufferedImage cover){
+        this.cover = cover;
+    }
     
     public String konvPesan(String pesan){
         int sPesan = pesan.length();
         String konversi = "";
+        String charKonversi;
         int temp;
         for(int i = 0 ; i < sPesan ; i++){
             temp = pesan.charAt(i);
-            konversi = konversi + Integer.toBinaryString(temp);
+            charKonversi = Integer.toBinaryString(temp);
+            while(charKonversi.length() < 8){
+                charKonversi = "0" + charKonversi;
+            }
+            konversi = konversi + charKonversi;
         }
         return konversi;
     }
     
     public void sisipPesan(String pesan) throws IOException{
-        this.cover = ImageIO.read(new File("sample.bmp"));
         
         String kPesan = this.konvPesan(pesan);
         int nPesan = kPesan.length();
@@ -47,8 +54,8 @@ public class BuatStegfile {
         }
         
         if(nPesan < (panjang * lebar)){
-            for(int x = 0 ; x < panjang ; x++ ){
-                for(int y = 0 ; y < lebar ; y++){
+            for(int x = 0 ; x < lebar ; x++ ){
+                for(int y = 0 ; y < panjang ; y++){
                     piksel = this.cover.getRGB(x, y);
                     Integer alpha = (piksel >> 24) & 0xff;
                     Integer merah = (piksel >> 16) & 0xff;
@@ -101,7 +108,7 @@ public class BuatStegfile {
                 String bin_merah = Integer.toBinaryString(merah);
                 String bin_hijau = Integer.toBinaryString(hijau);
                 String bin_biru = Integer.toBinaryString(biru);
-                System.out.print(merah + "(" + bin_merah +") ");
+                System.out.print(biru + "(" + bin_biru +") ");
             }
             System.out.println("");
         }
@@ -109,15 +116,8 @@ public class BuatStegfile {
     }
     
     public static void main(String[] args) throws IOException {
-        BuatStegfile buat = new BuatStegfile();
-//        String test = buat.konvPesan("aku rohis 23");
-//        System.out.println(test.length());
-//        
-//        System.out.println("=========");
-//        buat.citra2Biner();
-//        buat.sisipPesan("aku rohis 23");
-//        System.out.println("=========");
-//        
-        buat.citra2Biner();
+        BufferedImage cover = ImageIO.read(new File("suvafoto.jpeg"));
+        BuatStegfile buat = new BuatStegfile(cover);
+        buat.sisipPesan("Aku anak ROHIS, Selalu Optimis...");
     }
 }
